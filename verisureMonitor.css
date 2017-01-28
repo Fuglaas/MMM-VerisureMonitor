@@ -1,0 +1,14 @@
+/* MMM-VerisureMonitor */
+
+
+table.verisuremonitor { width: 100%; border: 1px;}
+
+.verisuremonitor .title {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.verisuremonitor .time {
+  padding-left: 30px;
+  text-align: right;
+}
