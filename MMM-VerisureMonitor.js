@@ -12,17 +12,17 @@ Module.register("MMM-VerisureMonitor",{
 	defaults: {
 		username: '',
 		password: '',
-		serviceReloadInterval: 10000,
-		timeReloadInterval: 3600,
-		animationSpeed: 1000
+		serviceReloadInterval: 30000,
+		timeReloadInterval: 30000,
+		animationSpeed: 1000,
+		showLocation: true,
+		showTemperature: true,
+		showHumidity: true,
+		locations: [""]
 	},
 	
 	getStyles: function () {
 		return ["verisureMonitor.css"];
-	},
-	
-	getScripts: function() {
-		return ["verisure-api.js"];
 	},
 	
 	getTranslations: function() {
@@ -33,23 +33,34 @@ Module.register("MMM-VerisureMonitor",{
 	},
 
 	start: function() {
-		console.log(this.translate("STARTINGMODULE") + ": " + this.name);
+		Log.log(this.translate("STARTINGMODULE") + ": " + this.name);
+		
+		var self = this;
 		
 		this.verisureData = [];
 		
-		sendSocketNotification("CONFIG", this.config);
+		this.sendSocketNotification("CONFIG", this.config);
 
 		setInterval(function() {
-			this.updateDomIfNeeded();
+			self.updateDomIfNeeded();
 		}, this.config.timeReloadInterval);
 	},
 	
 	getDom: function() {
-		if (true) {
+		log.info(this.verisureData);
+		if (this.verisureData !== null) {
+			
+			var table = document.createElement("table");
+			var tr = document.createElement("tr");
+			
+			for (var i = 0; i < this.verisureData.length; i++) {
+				tr = this.getTableRow(this.verisureData[i]);
+				table.appendChild(tr);
+			}
+			
 			var wrapper = document.createElement("div");
-			consol.log(this.verisureData);
-			wrapper.innerHTML = this.verisureData;
-			return wrapper;
+			wrapper.innerHTML = table;
+			return table;
 		} else {
 			var wrapper = document.createElement("div");
 			wrapper.innerHTML = this.translate("LOADING");
@@ -65,6 +76,23 @@ Module.register("MMM-VerisureMonitor",{
 	updateDomIfNeeded: function() {
 		if (true) {
 			this.updateDom(this.config.animationSpeed);
+		}
+	},
+	
+	getTableRow: function(sensorData) {
+		var tr = document.createElement("tr");
+		for (var i = 0; i < this.config.locations; i++) {
+			if (sensorData.location === this.config.locations[i]) {
+				if (showLocation) {
+					tr.appendChild(sensorData.location);
+				}
+				if (showTemperature) {
+					tr.appendChild(sensorData.temperature);
+				}
+				if (showHumidity) {
+					tr.appendChild(sensorData.humidity);
+				}
+			}
 		}
 	}
 });

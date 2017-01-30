@@ -1,7 +1,7 @@
 {
   "name": "mmm-verisuremonitor",
-  "version": "1.0.0",
-  "description": "The 'MMM-Temperature' module is for displaying the temperature sensors from Verisure",
+  "version": "0.1.0",
+  "description": "The 'MMM-VerisureMonitor' module is for displaying the temperature sensors from Verisure",
   "main": "MMM-VerisureMonitor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +11,6 @@
   "devDependencies": {
   },
   "dependencies": {
+	"verisure-api": "0.9.0"
   }
 }
